@@ -91,9 +91,17 @@ class TasmotaSonoffMqttCard extends LitElement {
 
     return html`
     <ha-card id="cardroot">
-      <div class="card-header">${this.config.name || this.config.entity}</div>
+      <div class="card-header">
+        ${this.config.name || this.config.entity}
+        <div class="refresh"><ha-icon icon="mdi:refresh" @click="${this.refreshStatus}"/></div>
+      </div>
       <div class="card-content">
-        <div class="tsm-timers-status">Timers: ${this.state.attributes.TimersStatus}</div>
+        <div class="timers-status">
+          <div class="timers-status-title">Timers:</div>
+          <ha-switch class="timers-status-switch" 
+            @change=${this.onChangeTimers}
+            .checked=${this.state.attributes.TimersStatus == 'ON'} />
+        </div>
         <div class="tsm-timers-container">
         ${timers}
         </div>
@@ -141,6 +149,15 @@ class TasmotaSonoffMqttCard extends LitElement {
     `;
   }
 
+  private refreshStatus() {
+    this.hass?.callService("tasmota_sonoff_mqtt", "refresh_status");
+  }
+
+  private onChangeTimers() {
+    // change this.state.attributes.TimersStatus
+    this.hass?.callService("tasmota_sonoff_mqtt", "toggle_timers");
+  }
+
   private onEditTimer(timerId: string) {
 
     var timer:TasmotaTimer = this.state.attributes.Timers[timerId];
@@ -177,8 +194,10 @@ class TasmotaSonoffMqttCard extends LitElement {
     // {"editTimerDlg" => TimerDialog}
     // shouldUpdate Map(0) {}
     // {"hass" => {…}}
-    if (changedProps.has("hass") && !!changedProps["hass"]) {
-      this.hass = <HomeAssistant>changedProps["hass"];
+    console.log("this.state.attributes.TimersStatus", this.state.attributes.TimersStatus);
+    var hass = <HomeAssistant>changedProps.get("hass");
+    if (hass) {
+      this.hass = hass;
       var state = this.hass.states[this.config?.entity];
       if (this.state.state != state.state) return true;
     }

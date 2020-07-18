@@ -1,10 +1,21 @@
 import { css } from 'lit-element';
 export const styles = css`
-  .tsm-timers-status {
+  .timers-status {
+    padding: 15pt 0 18px;
+    display: flex;
+  }
+  .timers-status-title {
+    flex-grow: 1;
+  }
+  .timers-status-switch {
+    _position: absolute;
+    right: -16px;
+    flex-shrink: 1;
   }
 
-  .tsm-timers-container {
-    xborder:1px solid #aaa;
+  .card-header .refresh {
+    float:right;
+    width: 1.6em;
   }
 
   .tsm-timer {

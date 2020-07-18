@@ -20,13 +20,14 @@ import { editDialogStyle } from './styles';
 
 export const CARD_TYPE = "tasmota-sonoff-dialog-mqtt-card";
 
-
+/*
 (window as any).customCards = (window as any).customCards || [];
 (window as any).customCards.push({
   type:  CARD_TYPE,
-  name: "Test Card",
-  description: "A test-card",
+  name: "Tasmota sonoff mqtt dialog",
+  description: "The Tasmota sonoff mqtt dialog card",
 });
+*/
 
 export class TimerDialogConfig {
   public Id: string = '0';
