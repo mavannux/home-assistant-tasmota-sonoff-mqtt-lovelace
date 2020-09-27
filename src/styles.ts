@@ -4,13 +4,19 @@ export const styles = css`
     padding: 15pt 0 18px;
     display: flex;
   }
-  .timers-status-title {
+  .timers-status .title {
     flex-grow: 1;
   }
-  .timers-status-switch {
-    _position: absolute;
-    right: -16px;
+  .timers-status .switch {
     flex-shrink: 1;
+  }
+  .timers-status .power-status {
+    font-size: x-large;
+    margin-right: 1em;
+  }
+  .timers-status .power-toggle {
+    padding: 9px 16px;
+    border-radius: 8px;
   }
 
   .card-header .refresh {

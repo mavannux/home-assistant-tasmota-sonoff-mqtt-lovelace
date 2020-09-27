@@ -49,7 +49,8 @@ interface TimerDialogStatus {
   Mode: number; //0
   Output: number;
   Repeat: number;
-  Time: string;// "06:00"
+  Hour: string; // "06"
+  Minutes: string; // "15"
   Window: number;// 0
 }
 
@@ -69,7 +70,8 @@ class TestDialogCard extends LitElement {
     Mode:0,
     Output:0,
     Repeat:0,
-    Time:'',
+    Hour:'',
+    Minutes:'',
     Window:0
   };
 
@@ -87,7 +89,8 @@ class TestDialogCard extends LitElement {
       Mode: config.Mode, //0
       Output: config.Output,
       Repeat: config.Repeat,
-      Time: config.Time, // "06:00"
+      Hour:  config.Time.substr(0,2),
+      Minutes:  config.Time.substr(3,2),
       Window: config.Window// 0
     };
 
@@ -103,8 +106,9 @@ class TestDialogCard extends LitElement {
 
     var hours : Array<string> = [];
     for(var i=0 ; i < 24 ; i++) {
-      hours.push( (i < 10 ? '0':'') + i + ':00');
+      hours.push( (i < 10 ? '0':'') + i);
     }
+    var minutes : Array<string> = ['00', '15', '30', '45'];
 
     return html`
     <div id="edit-timer-dlg" class="edit-timer-dlg">
@@ -122,12 +126,20 @@ class TestDialogCard extends LitElement {
       </div>
 
       <div>Ora: 
-        <select style="float: right;border-color: lightgray;border-radius: 5px;font-size: 1em;"
-          @change=${this.onEditDlgTime}
-          >
-          ${hours
-            .map(i => html`<option value="${i}" ?selected=${this._status.Time == i}>${i}</option>`)}
-        </select>
+        <div style="float: right">
+          <select style="border-color: lightgray;border-radius: 5px;font-size: 1em;"
+            @change=${this.onEditDlgHour}
+            >
+            ${hours
+              .map(i => html`<option value="${i}" ?selected=${this._status.Hour == i}>${i}</option>`)}
+          </select>
+          <select style="border-color: lightgray;border-radius: 5px;font-size: 1em;"
+            @change=${this.onEditDlgMinutes}
+            >
+            ${minutes
+              .map(i => html`<option value="${i}" ?selected=${this._status.Minutes == i}>${i}</option>`)}
+          </select>
+        </div>
       </div>
 
       <div>Azione: 
@@ -171,9 +183,21 @@ class TestDialogCard extends LitElement {
     this.requestUpdate();
   }
 
-  private onEditDlgTime(e) {
+  // private onEditDlgTime(e) {
+  //   var a :HTMLSelectElement = e.target;
+  //   this._status.Time = a.value;
+  //   this.requestUpdate();
+  // }
+
+  private onEditDlgHour(e) {
     var a :HTMLSelectElement = e.target;
-    this._status.Time = a.value;
+    this._status.Hour = a.value;
+    this.requestUpdate();
+  }
+
+  private onEditDlgMinutes(e) {
+    var a :HTMLSelectElement = e.target;
+    this._status.Minutes = a.value;
     this.requestUpdate();
   }
 
@@ -195,7 +219,7 @@ class TestDialogCard extends LitElement {
       Mode: this._status.Mode,
       Output: this._status.Output,
       Repeat: this._status.Repeat,
-      Time: this._status.Time,
+      Time: this._status.Hour + ':' + this._status.Minutes,
       Window: this._status.Window
     });
     
