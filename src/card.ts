@@ -93,17 +93,18 @@ class TasmotaSonoffMqttCard extends LitElement {
         timersHtml.push(this.getHtmlTimer(p, this._timers[p]));
     }
 
+    const isOn = state.attributes.POWER=='ON';
+
     return html`
     <ha-card id="cardroot">
       <div class="card-header">
-        ${this.config.name || this.config.entity}
+        ${this.config.name || this.config.entity} - <span style="color:${isOn?'red':'green'}">${isOn?'Acceso':'Spento'}</span>
         <div class="refresh"><ha-icon icon="mdi:refresh" @click="${this.refreshStatus}"/></div>
       </div>
       <div class="card-content">
         <div class="timers-status">
           <div class="title">Power:</div>
-          <div style="color:${state.attributes.POWER=='ON'?'red':'green'}" class="power-status">${state.attributes.POWER}</div>
-          <button class="btn power-toggle" @click=${this.onTogglePower}>TOGGLE</button>
+          <button class="btn power-toggle" @click=${this.onTogglePower}>${isOn?'Spegni':'Accendi'}</button>
         </div>
         <div class="timers-status">
           <div class="title">Timers:</div>

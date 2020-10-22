@@ -3,6 +3,7 @@ export const styles = css`
   .timers-status {
     padding: 15pt 0 18px;
     display: flex;
+    align-items: center;
   }
   .timers-status .title {
     flex-grow: 1;
@@ -26,7 +27,7 @@ export const styles = css`
 
   .tsm-timer {
     border:1px solid #aaa;
-    background-color: #ddd;
+    _background-color: #ddd;
     height: 3em;
     position: relative;
   }
@@ -43,13 +44,13 @@ export const styles = css`
     margin: 0 5px 0 0;
   }
   .tsm-timer-number.enabled.on {
-    background-color: #7fffd4;
+    background-color: var(--success-color);
   }
   .tsm-timer-number.enabled.off {
-    background-color: #ff7f50;
+    background-color: var(--warning-color);
   }
   .tsm-timer-number.disabled {
-    background-color: #eee;
+    _background-color: #eee;
   }
 
   .tsm-timer-number-n {
